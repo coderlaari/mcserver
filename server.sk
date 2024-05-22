@@ -1,0 +1,42 @@
+# Spawn
+command /asetaspawn:
+    permission: staff.setspawn
+    permission message: &cSinulla ei ole oikeutta tähän!
+    trigger:
+        set {spawn} to location of player
+        send "&aLoit spawnin onnistuneesti"
+        send "&6%{spawn}%"
+
+command /spawn:
+    trigger:
+        if {spawn} is set:
+            teleport player to {spawn}
+        else:
+            send "&cSpawnia ei ole! Ilmoita ylläpidolle!"
+        
+command /poistaspawn:
+    permission: staff.deletespawn
+    permission message: &cSinulla ei ole oikeuksia!
+    trigger:
+        if {spawn} is set:
+            delete {spawn}
+            send "&aPoistit spawnin onnistuneesti"
+        else:
+            send "&cAseta spawn ensimmäisenä"
+# Chat Format
+options: 
+    op: &7[&4ADMIN&7]
+    ranks.vip: &7[&aVIP&7]
+    ranks.mvp: &7[&9MVP&7]
+    ranks.pro: &7[&dPRO&7]
+    ranks.king: &7[&6KING&7]
+    user: %player% &8&l»
+
+on chat:
+    cancel event
+    if player has permission "op":
+        broadcast "{@op} {@user} &7%message%" in world of player
+    else if player has permission "user":
+        broadcast "{@user} &7%message%" in world of player
+    else if player has permission "ranks.vip":
+        broadcast "{@ranks.vip} {@user} &7%message%" in world of player
